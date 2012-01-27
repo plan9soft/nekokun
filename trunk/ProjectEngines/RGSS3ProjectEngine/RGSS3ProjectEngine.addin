@@ -1,0 +1,22 @@
+<AddIn name        = "RGSS3 Project Engine"
+       author      = "Ms. Neko"
+       url         = "http://nekokun.9bu.org/"
+       description = "Project Engine for RGSS3 based games.">
+
+  <Manifest>
+    <Identity name = "RGSS3ProjectEngine"/>
+    <Dependency addin="ObjectEditor"/>
+    <Dependency addin="RGSSProjectEngineCommon"/>
+  </Manifest>
+
+  <Runtime>
+    <Import assembly="$ObjectEditor/ObjectEditor.dll"/>
+    <Import assembly="RGSSProjectEngineCommon.dll"></Import>
+    <Import assembly="RGSS3ProjectEngine.dll"></Import>
+  </Runtime>
+
+  <Path name="/NekoKun/ProjectEngines">
+    <ProjectEngine id="RGSS3" class="orzTech.NekoKun.ProjectEngines.RGSS.RGSS3ProjectEngine" />
+  </Path>
+
+</AddIn>

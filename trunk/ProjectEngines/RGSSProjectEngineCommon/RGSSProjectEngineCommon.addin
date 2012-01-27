@@ -1,0 +1,15 @@
+<AddIn name        = "RGSS Project Engine Common"
+       author      = "Ms. Neko"
+       url         = "http://nekokun.9bu.org/"
+       description = "Base of RGSS Project Engine">
+
+  <Manifest>
+    <Identity name = "RGSSProjectEngineCommon"/>
+    <Dependency addin="ObjectEditor"/>
+  </Manifest>
+
+  <Runtime>
+    <Import assembly="$ObjectEditor/ObjectEditor.dll"/>
+    <Import assembly="RGSSProjectEngineCommon.dll"></Import>
+  </Runtime>
+</AddIn>

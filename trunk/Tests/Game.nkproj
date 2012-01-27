@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<NekoKunProject version="1.0" engine="RGSS3">
+  <EditorScript filename="EditorData\EditorScripts.rgss3data" />
+  <RGSS3Runtime fileprefix="Game" />
+</NekoKunProject>

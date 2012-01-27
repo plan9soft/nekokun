@@ -1,0 +1,22 @@
+<AddIn name        = "Object Editor"
+       author      = "Ms. Neko"
+       url         = "http://nekokun.9bu.org/"
+       description = "An editor for known objects.">
+	
+	<Manifest>
+		<Identity name = "ObjectEditor"/>
+	</Manifest>
+	
+	<Runtime>
+    <Import assembly="ObjectEditor.dll">
+      <Doozer name="ObjectDisplayBinding" class="orzTech.NekoKun.ObjectEditor.ObjectDisplayBindingDoozer"/>
+    </Import>
+	</Runtime>
+
+  <Path name = "/NekoKun/ObjectEditor/DisplayBindings">
+    <ObjectDisplayBinding id = "List" typename = "System.Collections.Generic.List`1[[System.Object]]" class = "orzTech.NekoKun.ObjectEditor.ListObjectDisplayBinding" />
+    <ObjectDisplayBinding id = "Dictionary" typename = "System.Collections.Generic.Dictionary`2[[System.Object], [System.Object]]" class = "orzTech.NekoKun.ObjectEditor.ListObjectDisplayBinding" />
+    <ObjectDisplayBinding id = "String" typename = "System.String" class = "orzTech.NekoKun.ObjectEditor.StringObjectDisplayBinding" />
+  </Path>
+
+</AddIn>
