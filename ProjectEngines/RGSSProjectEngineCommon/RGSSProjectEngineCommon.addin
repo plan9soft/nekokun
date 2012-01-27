@@ -12,4 +12,16 @@
     <Import assembly="$ObjectEditor/ObjectEditor.dll"/>
     <Import assembly="RGSSProjectEngineCommon.dll"></Import>
   </Runtime>
+
+  <Path name = "/Workspace/DisplayBindings">
+    <Class insertbefore="Text" id = "RubyMarshal" class = "orzTech.NekoKun.ProjectEngines.RGSS.RubyMarshalDumpDisplayBinding"/>
+  </Path>
+
+  <Path name = "/Workspace/FileFilter">
+    <FileFilter id = "RubyMarshalDump" name = "Ruby Marshal Dump" extensions = "*.r?data?"/>
+  </Path>
+
+  <Path name = "/NekoKun/ObjectEditor/DisplayBindings">
+    <ObjectDisplayBinding id = "RubyObject" typename = "orzTech.NekoKun.ProjectEngines.RGSS.RubyObject" class = "orzTech.NekoKun.ProjectEngines.RGSS.RubyClassObjectDisplayBinding" />
+  </Path>
 </AddIn>
