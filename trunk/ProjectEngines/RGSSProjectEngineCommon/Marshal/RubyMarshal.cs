@@ -5,7 +5,7 @@ using System.IO;
 
 namespace orzTech.NekoKun.ProjectEngines.RGSS
 {
-    public static class Marshal
+    public static class RubyMarshal
     {
         public static object Load(Stream input)
         {

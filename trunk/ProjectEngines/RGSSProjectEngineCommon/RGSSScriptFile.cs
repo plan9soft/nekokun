@@ -29,7 +29,7 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         protected static RGSSScriptFile LoadFile(System.IO.FileStream file)
         {
             RGSSScriptFile scripts = new RGSSScriptFile();
-            List<object> editorScripts = Marshal.Load(file, true) as List<object>;
+            List<object> editorScripts = RubyMarshal.Load(file, true) as List<object>;
 
 
             foreach (List<object> item in editorScripts)
