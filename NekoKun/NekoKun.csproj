@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BBAAB8D0-92E0-4A4A-A1CB-65D2089506E4}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>orzTech.NekoKun</RootNamespace>
+    <AssemblyName>NekoKun</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Office2007ColorTable.cs" />
+    <Compile Include="Office2007Helpers.cs" />
+    <Compile Include="Office2007Renderer.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ImageResources.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StringResources.resx">
+      <LastGenOutput>StringResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="NekoKun.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\NekoKun.Base\NekoKun.Base.addin">
+      <Link>AddIns\NekoKun.Base.addin</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="data\options\AppProperties.xml" />
+    <None Include="Resources\Icons.OpenFolderBitmap.png" />
+    <None Include="Resources\Icons.OpenAssembly.png" />
+    <None Include="Resources\Icons.ClosedFolderBitmap.png" />
+    <None Include="Resources\Icons.Class.png" />
+    <None Include="Resources\Icons.Assembly.png" />
+    <None Include="Resources\Icons.Zoom.png" />
+    <None Include="Resources\Icons.XMLFile.png" />
+    <None Include="Resources\Icons.Windows.png" />
+    <None Include="Resources\Icons.WebInsertHyperlink.png" />
+    <None Include="Resources\Icons.Web.png" />
+    <None Include="Resources\Icons.Warning.png" />
+    <None Include="Resources\Icons.ViewThumbnails.png" />
+    <None Include="Resources\Icons.TileWindowsHorizontally.png" />
+    <None Include="Resources\Icons.ThumbnailView.png" />
+    <None Include="Resources\Icons.ThumbnailLoading.png" />
+    <None Include="Resources\Icons.Textbox.png" />
+    <None Include="Resources\Icons.Task.png" />
+    <None Include="Resources\Icons.Table.png" />
+    <None Include="Resources\Icons.Symbol.png" />
+    <None Include="Resources\Icons.SychronizeList.png" />
+    <None Include="Resources\Icons.Stop.png" />
+    <None Include="Resources\Icons.SplitSubdocument.png" />
+    <None Include="Resources\Icons.SpeechMic.png" />
+    <None Include="Resources\Icons.SortUp.png" />
+    <None Include="Resources\Icons.Sort.png" />
+    <None Include="Resources\Icons.ShowRuler.png" />
+    <None Include="Resources\Icons.ShowRulelines.png" />
+    <None Include="Resources\Icons.ShowGridlines2.png" />
+    <None Include="Resources\Icons.ShowGridlines.png" />
+    <None Include="Resources\Icons.ShowAllComments.png" />
+    <None Include="Resources\Icons.SendToBack.png" />
+    <None Include="Resources\Icons.SendBackward.png" />
+    <None Include="Resources\Icons.SearchWeb.png" />
+    <None Include="Resources\Icons.SearchFolder.png" />
+    <None Include="Resources\Icons.SaveFormDesign.png" />
+    <None Include="Resources\Icons.SaveAsWebPage.png" />
+    <None Include="Resources\Icons.SaveAll.png" />
+    <None Include="Resources\Icons.save.png" />
+    <None Include="Resources\Icons.Ruler.png" />
+    <None Include="Resources\Icons.RoutingSlip.png" />
+    <None Include="Resources\Icons.RightToLeftDoucment.png" />
+    <None Include="Resources\Icons.RightsRestricted.png" />
+    <None Include="Resources\Icons.RightArrow2.png" />
+    <None Include="Resources\Icons.RightArrow.png" />
+    <None Include="Resources\Icons.Restart.png" />
+    <None Include="Resources\Icons.Resize.png" />
+    <None Include="Resources\Icons.Repeat.png" />
+    <None Include="Resources\Icons.RenameFolder.png" />
+    <None Include="Resources\Icons.Relationships.png" />
+    <None Include="Resources\Icons.RefreshDocView.png" />
+    <None Include="Resources\Icons.Record.png" />
+    <None Include="Resources\Icons.RecolorPicture.png" />
+    <None Include="Resources\Icons.RadialChart.png" />
+    <None Include="Resources\Icons.Pushpin.png" />
+    <None Include="Resources\Icons.PublishToWeb.png" />
+    <None Include="Resources\Icons.PublishPlan.png" />
+    <None Include="Resources\Icons.ProtectSubdocument.png" />
+    <None Include="Resources\Icons.ProtectForm.png" />
+    <None Include="Resources\Icons.Properties.png" />
+    <None Include="Resources\Icons.PrintSetup.png" />
+    <None Include="Resources\Icons.PrintPreview.png" />
+    <None Include="Resources\Icons.Print.png" />
+    <None Include="Resources\Icons.PrimaryKey.png" />
+    <None Include="Resources\Icons.PreviousPage.png" />
+    <None Include="Resources\Icons.PortraitLandscape.png" />
+    <None Include="Resources\Icons.Portrait.png" />
+    <None Include="Resources\Icons.Pointer.png" />
+    <None Include="Resources\Icons.Play.png" />
+    <None Include="Resources\Icons.PieChart3D.png" />
+    <None Include="Resources\Icons.PieChart.png" />
+    <None Include="Resources\Icons.PauseRecorder.png" />
+    <None Include="Resources\Icons.Pause.png" />
+    <None Include="Resources\Icons.Paste.png" />
+    <None Include="Resources\Icons.PageWidth.png" />
+    <None Include="Resources\Icons.PageUp.png" />
+    <None Include="Resources\Icons.pageNumber.png" />
+    <None Include="Resources\Icons.Outdent.png" />
+    <None Include="Resources\Icons.OrgChart.png" />
+    <None Include="Resources\Icons.Organizer.png" />
+    <None Include="Resources\Icons.Options.png" />
+    <None Include="Resources\Icons.OpenSelectedItem.png" />
+    <None Include="Resources\Icons.openfolder.png" />
+    <None Include="Resources\Icons.open.png" />
+    <None Include="Resources\Icons.Note.png" />
+    <None Include="Resources\Icons.NextPage.png" />
+    <None Include="Resources\Icons.NewReport.png" />
+    <None Include="Resources\Icons.NewMessage.png" />
+    <None Include="Resources\Icons.NewFolder.png" />
+    <None Include="Resources\Icons.NewDocument.png" />
+    <None Include="Resources\Icons.NewCard.png" />
+    <None Include="Resources\Icons.NavForward.png" />
+    <None Include="Resources\Icons.NavBack.png" />
+    <None Include="Resources\Icons.MultiplePages.png" />
+    <None Include="Resources\Icons.MoveToFolder.png" />
+    <None Include="Resources\Icons.MoveFolder.png" />
+    <None Include="Resources\Icons.MonthlyView.png" />
+    <None Include="Resources\Icons.List_NumberedVertT.png" />
+    <None Include="Resources\Icons.List_NumberedTB.png" />
+    <None Include="Resources\Icons.List_NumberedRTL.png" />
+    <None Include="Resources\Icons.List_Numbered.png" />
+    <None Include="Resources\Icons.List_Bullets.png" />
+    <None Include="Resources\Icons.LineColor.png" />
+    <None Include="Resources\Icons.Legend.png" />
+    <None Include="Resources\Icons.Italic.png" />
+    <None Include="Resources\Icons.InsertTabControl.png" />
+    <None Include="Resources\Icons.InsertPicture.png" />
+    <None Include="Resources\Icons.InsertHyperlink.png" />
+    <None Include="Resources\Icons.Indent.png" />
+    <None Include="Resources\Icons.ImportXML.png" />
+    <None Include="Resources\Icons.HTMLSubmit.png" />
+    <None Include="Resources\Icons.HTMLPassword.png" />
+    <None Include="Resources\Icons.HTMLPage.png" />
+    <None Include="Resources\Icons.HtmlBalanceBraces.png" />
+    <None Include="Resources\Icons.Home.png" />
+    <None Include="Resources\Icons.Highlight.png" />
+    <None Include="Resources\Icons.Help.png" />
+    <None Include="Resources\Icons.graph.png" />
+    <None Include="Resources\Icons.GotoShortcuts.png" />
+    <None Include="Resources\Icons.GoToPreviousMessage.png" />
+    <None Include="Resources\Icons.GoToPrevious.png" />
+    <None Include="Resources\Icons.GoToParentFolder.png" />
+    <None Include="Resources\Icons.GoToNext.png" />
+    <None Include="Resources\Icons.GoRtl.png" />
+    <None Include="Resources\Icons.GoLtr.png" />
+    <None Include="Resources\Icons.Function.png" />
+    <None Include="Resources\Icons.FullScreen.png" />
+    <None Include="Resources\Icons.FormulaEvaluator.png" />
+    <None Include="Resources\Icons.FormRun.png" />
+    <None Include="Resources\Icons.FontDialog.png" />
+    <None Include="Resources\Icons.Font.png" />
+    <None Include="Resources\Icons.FlipVertical.png" />
+    <None Include="Resources\Icons.FlipHorizontal.png" />
+    <None Include="Resources\Icons.Flag_red.png" />
+    <None Include="Resources\Icons.Flag_green.png" />
+    <None Include="Resources\Icons.Flag_blue.png" />
+    <None Include="Resources\Icons.FindNext.png" />
+    <None Include="Resources\Icons.Find.png" />
+    <None Include="Resources\Icons.Filter2.png" />
+    <None Include="Resources\Icons.FillUp.png" />
+    <None Include="Resources\Icons.FillRight.png" />
+    <None Include="Resources\Icons.FillLeft.png" />
+    <None Include="Resources\Icons.FillDown.png" />
+    <None Include="Resources\Icons.Fax.png" />
+    <None Include="Resources\Icons.Expiration.png" />
+    <None Include="Resources\Icons.ExpandSpace.png" />
+    <None Include="Resources\Icons.eps_open_large.png" />
+    <None Include="Resources\Icons.eps_open.png" />
+    <None Include="Resources\Icons.eps_closed.png" />
+    <None Include="Resources\Icons.Envelope.png" />
+    <None Include="Resources\Icons.EditTable.png" />
+    <None Include="Resources\Icons.EditInformation.png" />
+    <None Include="Resources\Icons.EditCode.png" />
+    <None Include="Resources\Icons.EditBrightContrast.png" />
+    <None Include="Resources\Icons.Edit_Undo.png" />
+    <None Include="Resources\Icons.Edit_Redo.png" />
+    <None Include="Resources\Icons.DoubleRightArrow.png" />
+    <None Include="Resources\Icons.DoubleLeftArrow.png" />
+    <None Include="Resources\Icons.Document.png" />
+    <None Include="Resources\Icons.DisplayInColor.png" />
+    <None Include="Resources\Icons.Dial.png" />
+    <None Include="Resources\Icons.DeleteFolder.png" />
+    <None Include="Resources\Icons.Delete.png" />
+    <None Include="Resources\Icons.DataContainer_NewRecord.png" />
+    <None Include="Resources\Icons.DataContainer_MovePrevious.png" />
+    <None Include="Resources\Icons.DataContainer_MoveNext.png" />
+    <None Include="Resources\Icons.DataContainer_MoveLast.png" />
+    <None Include="Resources\Icons.DataContainer_MoveFirst.png" />
+    <None Include="Resources\Icons.Cut.png" />
+    <None Include="Resources\Icons.CopyFolder.png" />
+    <None Include="Resources\Icons.Copy.png" />
+    <None Include="Resources\Icons.Conflict.png" />
+    <None Include="Resources\Icons.compareversions.png" />
+    <None Include="Resources\Icons.Comment.png" />
+    <None Include="Resources\Icons.Color_font.png" />
+    <None Include="Resources\Icons.Color.png" />
+    <None Include="Resources\Icons.CheckSpelling.png" />
+    <None Include="Resources\Icons.CheckGrammar.png" />
+    <None Include="Resources\Icons.CheckBox.png" />
+    <None Include="Resources\Icons.CenterAcross.png" />
+    <None Include="Resources\Icons.CascadeWindows.png" />
+    <None Include="Resources\Icons.CanvasScale.png" />
+    <None Include="Resources\Icons.Calendar_schedule.png" />
+    <None Include="Resources\Icons.Calculator.png" />
+    <None Include="Resources\Icons.BringToFront.png" />
+    <None Include="Resources\Icons.BringForward.png" />
+    <None Include="Resources\Icons.Breakpoint.png" />
+    <None Include="Resources\Icons.Book_StackOfReports.png" />
+    <None Include="Resources\Icons.book_report.png" />
+    <None Include="Resources\Icons.Book_open.png" />
+    <None Include="Resources\Icons.Book_angle.png" />
+    <None Include="Resources\Icons.book_address.png" />
+    <None Include="Resources\Icons.bold.png" />
+    <None Include="Resources\Icons.BehindText.png" />
+    <None Include="Resources\Icons.BarCode.png" />
+    <None Include="Resources\Icons.BackgroundSound.png" />
+    <None Include="Resources\Icons.Audio.png" />
+    <None Include="Resources\Icons.Attachment.png" />
+    <None Include="Resources\Icons.ArrangeWindows.png" />
+    <None Include="Resources\Icons.ArrangeSideBySide.png" />
+    <None Include="Resources\Icons.AlignToGrid.png" />
+    <None Include="Resources\Icons.AlignTableCellMiddleRight.png" />
+    <None Include="Resources\Icons.AlignTableCellMiddleLeftJust.PNG" />
+    <None Include="Resources\Icons.AlignTableCellMiddleCenter.png" />
+    <None Include="Resources\Icons.AlignObjectsTop.png" />
+    <None Include="Resources\Icons.AlignObjectsRight.png" />
+    <None Include="Resources\Icons.AlignObjectsLeft.png" />
+    <None Include="Resources\Icons.AlignObjectsCenteredVertical.png" />
+    <None Include="Resources\Icons.AlignObjectsCenteredHorizontal.png" />
+    <None Include="Resources\Icons.AlignObjectsBottom.png" />
+    <None Include="Resources\Icons.AddToFavorites.png" />
+    <None Include="Resources\Icons.AddTable.png" />
+    <None Include="Resources\Icons.ActualSize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\ICSharpCode.Core\ICSharpCode.Core.csproj">
+      <Project>{35CEF10F-2D4C-45F2-9DD1-161E0FEC583C}</Project>
+      <Name>ICSharpCode.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\NekoKun.Base\NekoKun.Base.csproj">
+      <Project>{C9A2B6BC-5260-4DE3-8082-DCE8B391F7BB}</Project>
+      <Name>NekoKun.Base</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

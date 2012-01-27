@@ -1,0 +1,140 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>orzTech.NekoKun.Base</RootNamespace>
+    <AssemblyName>NekoKun.Base</AssemblyName>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C9A2B6BC-5260-4DE3-8082-DCE8B391F7BB}</ProjectGuid>
+    <OutputPath>..\bin\</OutputPath>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <FileAlignment>4096</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>False</Optimize>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>True</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionHandles\ICanBeDirty.cs" />
+    <Compile Include="Commands\WindowCommands.cs" />
+    <Compile Include="Helper\AssemblyInfo.cs" />
+    <Compile Include="Commands\FileCommands.cs" />
+    <Compile Include="Helper\FileService.cs" />
+    <Compile Include="Helper\NativeMethods.cs" />
+    <Compile Include="Helper\FormLocationHelper.cs" />
+    <Compile Include="Project\IProjectFile.cs" />
+    <Compile Include="Project\ProjectItem.cs" />
+    <Compile Include="Project\ProjectExplorer.cs">
+    </Compile>
+    <Compile Include="Project\ProjectExplorerViewContent.cs" />
+    <Compile Include="Project\AbstractProjectEngine.cs" />
+    <Compile Include="Project\IProjectEngine.cs" />
+    <Compile Include="Project\ProjectEngineDoozer.cs" />
+    <Compile Include="Project\Project.cs" />
+    <Compile Include="Project\ProjectEnginesManager.cs" />
+    <Compile Include="Project\ProjectService.cs" />
+    <Compile Include="WorkspaceWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewContents\AbstractBaseViewContent.cs" />
+    <Compile Include="ViewContents\AbstractViewContent.cs" />
+    <Compile Include="ViewContents\IBaseViewContent.cs" />
+    <Compile Include="ViewContents\IViewContent.cs" />
+    <Compile Include="ViewContents\IWorkbenchWindow.cs" />
+    <Compile Include="ViewContents\TextViewContent.cs">
+    </Compile>
+    <Compile Include="ActionHandles\IClipboardHandler.cs" />
+    <Compile Include="ActionHandles\IUndoHandler.cs" />
+    <Compile Include="InfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <EmbeddedResource Include="InfoForm.resx">
+      <DependentUpon>InfoForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Workbench.resx">
+      <DependentUpon>Workbench.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Include="DataBindings\IDisplayBinding.cs" />
+    <Compile Include="Workbench.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\DockPanel_Src\WinFormsUI\WinFormsUI.csproj">
+      <Project>{D3C782BA-178E-4235-A3BA-8C11DEBB6BEE}</Project>
+      <Name>WinFormsUI</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\ICSharpCode.Core\ICSharpCode.Core.csproj">
+      <Project>{35CEF10F-2D4C-45F2-9DD1-161E0FEC583C}</Project>
+      <Name>ICSharpCode.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NekoKun.Base.addin">
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+</Project>
