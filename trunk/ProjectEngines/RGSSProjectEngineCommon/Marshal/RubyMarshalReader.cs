@@ -146,7 +146,7 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         private void TryExpendUserdefinedType(RubyExpendObject load)
         {
             // todo
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         private RubyObject ReadClass()
