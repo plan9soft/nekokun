@@ -46,6 +46,7 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
                     obj = num;
                 }
             }
+
             if (obj == null || obj is RubyNil)
             {
                 this.m_writer.Write((byte)0x30);
@@ -58,25 +59,96 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
             {
                 this.WriteFixnum((int)obj);
             }
-            else if (obj is RubySymbol)
+            else  if (obj is RubySymbol)
             {
-                this.WriteSymbol((RubySymbol)obj);
-            }
-            else if (obj is string)
+                    if (this.m_symbols.Contains((RubySymbol)obj))
+                    {
+                        this.m_writer.Write((byte)0x3b);
+                        this.WriteInt32(this.m_symbols.IndexOf((RubySymbol)obj));
+                    }
+                    else
+                    {
+                        this.m_symbols.Add((RubySymbol)obj);
+                        this.WriteSymbol((RubySymbol)obj);
+                    }
+                }
+            else if (this.m_objects.Contains(obj))
             {
-                this.WriteString((string)obj);
-            }
-            else if (obj is byte[])
-            {
-                this.WriteString((byte[])obj);
-            }
-            else if (obj is List<object>)
-            {
-                this.WriteArray((List<object>)obj);
+                this.m_writer.Write((byte)0x40);
+                this.WriteInt32(this.m_objects.IndexOf(obj));
             }
             else
             {
-                throw new ArgumentException("i don't know how to marshal.dump this type: " + obj.GetType().FullName);
+                this.m_objects.Add(obj);
+
+                if (obj is double)
+                {
+                    this.WriteFloat((double)obj);
+                }
+                else if (obj is float)
+                {
+                    this.WriteFloat((double)obj);
+                }
+                else if (obj is string)
+                {
+                    this.WriteString((string)obj);
+                }
+                else if (obj is byte[])
+                {
+                    this.WriteString((byte[])obj);
+                }
+                else if (obj is List<object>)
+                {
+                    this.WriteArray((List<object>)obj);
+                }
+                else if (obj is RubyHash)
+                {
+                    this.WriteHash((RubyHash)obj);
+                }
+                else
+                {
+                    throw new ArgumentException("i don't know how to marshal.dump this type: " + obj.GetType().FullName);
+                }
+            }
+        }
+
+        private void WriteFloat(double value)
+        {
+            this.m_writer.Write((byte)0x66);
+            if (double.IsInfinity(value))
+            {
+                if (double.IsPositiveInfinity(value))
+                {
+                    this.WriteStringValue("inf");
+                }
+                else
+                {
+                    this.WriteStringValue("-inf");
+                }
+            }
+            else if (double.IsNaN(value))
+            {
+                this.WriteStringValue("nan");
+            }
+            else
+            {
+                this.WriteStringValue(string.Format("{0:g}", value));
+            }
+        }
+
+        private void WriteHash(RubyHash value)
+        {
+            char ch = (value.DefaultValue != null) ? '}' : '{';
+            this.m_writer.Write((byte)ch);
+            this.WriteInt32(value.Count);
+            foreach (KeyValuePair<object, object> pair in value)
+            {
+                this.WriteAnObject(pair.Key);
+                this.WriteAnObject(pair.Value);
+            }
+            if (value.DefaultValue != null)
+            {
+                this.WriteAnObject(value.DefaultValue);
             }
         }
 
@@ -89,16 +161,19 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
                 this.WriteAnObject(obj2);
             }
         }
+
         private void WriteString(byte[] bytes)
         {
             this.m_writer.Write((byte)0x22);
             this.WriteStringValue(bytes);
         }
+
         private void WriteString(string value)
         {
             this.m_writer.Write((byte)0x22);
             this.WriteStringValue(value);
         }
+
         private void WriteStringValue(string value)
         {
             byte[] bytes = Encoding.Unicode.GetBytes(value);
@@ -106,11 +181,13 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
             this.WriteInt32(buffer.Length);
             this.m_writer.Write(buffer);
         }
+
         private void WriteStringValue(byte[] value)
         {
             this.WriteInt32(value.Length);
             this.m_writer.Write(value);
         }
+
         private void WriteSymbol(RubySymbol value)
         {
             if (this.m_symbols.Contains(value))
@@ -125,11 +202,13 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
                 this.WriteStringValue(value.GetString());
             }
         }
+
         private void WriteFixnum(int value)
         {
             this.m_writer.Write((byte)0x69);
             this.WriteInt32(value);
         }
+
         private void WriteInt32(int value)
         {
             if (value == 0)
