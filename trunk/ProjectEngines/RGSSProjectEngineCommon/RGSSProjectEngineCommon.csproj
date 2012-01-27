@@ -42,10 +42,10 @@
   -->
   <ItemGroup>
     <Compile Include="Helper.cs" />
-    <Compile Include="Marshal.cs" />
-    <Compile Include="RGSS3ScriptFile.cs" />
-    <Compile Include="RGSS3ScriptItem.cs" />
-    <Compile Include="RGSS3ScriptItemViewContent.cs" />
+    <Compile Include="Marshal\Marshal.cs" />
+    <Compile Include="RGSSScriptFile.cs" />
+    <Compile Include="RGSSScriptItem.cs" />
+    <Compile Include="RGSSScriptItemViewContent.cs" />
     <Compile Include="RObj\RubyBignum.cs" />
     <Compile Include="RObj\RubyHash.cs" />
     <Compile Include="RubyClassObjectDisplayBinding.cs" />
