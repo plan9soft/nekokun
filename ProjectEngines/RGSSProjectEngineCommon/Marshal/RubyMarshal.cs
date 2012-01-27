@@ -16,12 +16,13 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         {
             RubyMarshalReader reader = new RubyMarshalReader(input);
             reader.TreatStringAsBytes = TreatStringAsBytes;
-            return reader.ReadObject();
+            return reader.Load();
         }
 
         public static void Dump(Stream output, object param)
         {
-            throw new NotImplementedException("marshal.dump");
+            RubyMarshalWriter writer = new RubyMarshalWriter(output);
+            writer.Dump(param);
         }
     }
 }

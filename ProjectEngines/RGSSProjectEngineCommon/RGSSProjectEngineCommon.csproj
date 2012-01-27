@@ -42,7 +42,7 @@
   -->
   <ItemGroup>
     <Compile Include="Helper.cs" />
-    <Compile Include="Marshal\Marshal.cs" />
+    <Compile Include="Marshal\RubyMarshal.cs" />
     <Compile Include="RGSSScriptFile.cs" />
     <Compile Include="RGSSScriptItem.cs" />
     <Compile Include="RGSSScriptItemViewContent.cs" />

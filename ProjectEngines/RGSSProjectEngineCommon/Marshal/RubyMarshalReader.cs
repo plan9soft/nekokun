@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace orzTech.NekoKun.ProjectEngines.RGSS
 {
-    class RubyMarshalReader : IDisposable
+    class RubyMarshalReader
     {
         private Stream m_stream;
         private BinaryReader m_reader;
@@ -28,14 +28,19 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
             this.m_objects = new List<object>();
             this.m_symbols = new List<RubySymbol>();
             this.m_reader = new BinaryReader(m_stream);
-            this.m_reader.Read();
-            this.m_reader.Read();
         }
 
         public bool TreatStringAsBytes
         {
             get { return treatStringAsBytes; }
             set { treatStringAsBytes = value; }
+        }
+
+        public object Load()
+        {
+            this.m_reader.Read();
+            this.m_reader.Read();
+            return ReadObject();
         }
 
         /// <summary>
@@ -252,30 +257,6 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
                 return output;
             }
             return (num - 5);
-        }
-
-        public virtual void Close()
-        {
-            this.Dispose(true);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Stream stream = this.m_stream;
-                this.m_stream = null;
-                if (stream != null)
-                {
-                    stream.Close();
-                }
-            }
-            this.m_stream = null;
-        }
-
-        void IDisposable.Dispose()
-        {
-            this.Dispose(true);
         }
     }
 }
