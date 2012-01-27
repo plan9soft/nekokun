@@ -55,7 +55,7 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
             {
                 while (fileStream.Position < fileStream.Length)
                 {
-                    rubyObjectList.Add(Marshal.Load(fileStream));
+                    rubyObjectList.Add(RubyMarshal.Load(fileStream));
                 }
             }
             catch (Exception ex) {
