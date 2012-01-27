@@ -40,23 +40,24 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         {
             this.m_reader.Read();
             this.m_reader.Read();
-            return ReadObject();
+            return ReadAnObject();
         }
 
-        /// <summary>
-        /// 从流中读取一个 Object。
-        /// </summary>
-        /// <returns>读取到的 Object.</returns>
-        public object ReadObject()
+        public void AddObject(object Object)
+        {
+            this.m_objects.Add(Object);
+        }
+
+        public object ReadAnObject()
         {
             byte id = m_reader.ReadByte();
             switch (id)
             {
                 case 0x40: // @ Object Reference
-                    return m_objects[ReadInt()];
+                    return m_objects[ReadInt32()];
 
                 case 0x3b: // ; Symbol Reference
-                    return m_symbols[ReadInt()];
+                    return m_symbols[ReadInt32()];
 
                 case 0x30: // 0 NilClass
                     return RubyNil.Instance;
@@ -68,170 +69,293 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
                     return false;
 
                 case 0x69: // i Fixnum
-                    return ReadInt();
+                    return ReadInt32();
 
                 case 0x66: // f Float
-                    string floatstr = ReadString();
-                    if (floatstr.Contains("\0"))
-                    {
-                        floatstr = floatstr.Remove(floatstr.IndexOf("\0"));
-                    }
-                    float floatobj = Convert.ToSingle(floatstr);
-                    m_objects.Add(floatobj);
-                    return floatobj;
+                    return ReadFloat();
 
                 case 0x22: // " String
-                    object str;
-                    if (!TreatStringAsBytes)
-                        str = ReadString();
-                    else
-                        str = ReadStringAsBytes();
-                    m_objects.Add(str);
-                    return str;
+                    return ReadString();
 
                 case 0x3a: // : Symbol
-                    RubySymbol symbol = RubySymbol.GetSymbol(ReadString());
-                    m_symbols.Add(symbol);
-                    return symbol;
+                    return ReadSymbol();
 
                 case 0x5b: // [ Array
-                    List<object> array = new List<object>();
-                    m_objects.Add(array);
-                    int arraycount = ReadInt();
-                    for (int i = 0; i < arraycount; i++)
-                    {
-                        array.Add(ReadObject());
-                    }
-                    return array;
+                    return ReadArray();
 
                 case 0x7b: // { Hash
                 case 0x7d: // } Hash w/ default value
-                    RubyHash hash = new RubyHash();
-                    m_objects.Add(hash);
-                    int hashcount = ReadInt();
-                    for (int i = 0; i < hashcount; i++)
-                    {
-                        hash[ReadObject()] = ReadObject();
-                    }
-                    if (id == 0x7d)
-                        hash.DefaultValue = ReadObject();
-                    return hash;
+                    return ReadHash(id == 0x7d);
 
                 case 0x2f: // / Regexp
-                    string regexPattern = ReadString();
-                    int regexOptionsRuby = m_reader.ReadByte();
-                    RegexOptions regexOptions = RegexOptions.None;
-                    if (regexOptionsRuby >= 4)
-                    {
-                        regexOptions |= RegexOptions.Multiline;
-                        regexOptionsRuby -= 4;
-                    }
-                    if (regexOptionsRuby >= 2)
-                    {
-                        regexOptions |= RegexOptions.IgnorePatternWhitespace;
-                        regexOptionsRuby -= 2;
-                    }
-                    if (regexOptionsRuby >= 1)
-                    {
-                        regexOptions |= RegexOptions.IgnoreCase;
-                        regexOptionsRuby -= 1;
-                    }
-                    Regex regex = new Regex(regexPattern, regexOptions);
-                    m_objects.Add(regex);
-                    return regex;
+                    return ReadRegex();
 
                 case 0x6f: // o Object
-                    RubyObject robj = new RubyObject();
-                    m_objects.Add(robj);
-                    robj.ClassName = (RubySymbol)ReadObject();
-                    int robjcount = ReadInt();
-                    for (int i = 0; i < robjcount; i++)
-                    {
-                        robj[(RubySymbol)ReadObject()] = ReadObject();
-                    }
-                    return robj;
+                    return ReadObject();
 
+                case 0x43: // C Expend Object w/o attributes
                 case 0x49: // I Expend Object
-                    RubyExpendObject expendobject = new RubyExpendObject();
-                    m_objects.Add(expendobject);
-                    expendobject.BaseObject = ReadObject();
-                    int expendobjectcount = ReadInt();
-                    for (int i = 0; i < expendobjectcount; i++)
-                    {
-                        expendobject[(RubySymbol) ReadObject()] = ReadObject();
-                    }
-                    return expendobject;
+                    return ReadExpendObject(id == 0x49);
 
                 case 0x6c: // l Bignum
-                    int sign = 0;
-                    switch (m_reader.ReadByte())
-                    {
-                        case 0x2b:
-                            sign = 1;
-                            break;
+                    return ReadBignum();
 
-                        case 0x2d:
-                            sign = -1;
-                            break;
+                case 0x53: // S Struct
+                    return ReadStruct();
 
-                        default:
-                            sign = 0;
-                            break;
-                    }
-                    int num3 = ReadInt();
-                    int index = num3 / 2;
-                    int num5 = (num3 + 1) / 2;
-                    uint[] data = new uint[num5];
-                    for (int i = 0; i < index; i++)
-                    {
-                        data[i] = m_reader.ReadUInt32();
-                    }
-                    if (index != num5)
-                    {
-                        data[index] = m_reader.ReadUInt16();
-                    }
-                    RubyBignum bignum = new RubyBignum(sign, data);
-                    this.m_objects.Add(bignum);
-                    return bignum;
+                case 0x65: // e Extended Object
+                    return ReadExtendedObject();
 
-                case 0x75: // u
-                    string uClassName = ((RubySymbol)ReadObject()).GetString();
-                    object uObj = null;
-                    //
-                    return uObj;
+                case 0x6d: // m Module
+                    return ReadModule();
 
                 case 0x63: // c Class
-                case 0x6d: // m Module
-                case 0x4d: // M Module?
+                    return ReadClass();
+
                 case 0x55: // U
-                case 0x53: // S Struct
-                case 0x65: // e
-                case 0x43: // C
+                    return ReadUsingMarshalLoad();
+
+                case 0x75: // u
+                    return ReadUsingLoad();
+
                 default:
                     throw new NotImplementedException("not implemented type identifier: " + id.ToString());
             }
         }
 
-        public void AddObject(object Object)
+        private object ReadUsingLoad()
         {
-            this.m_objects.Add(Object);
+            RubyExpendObject load = new RubyExpendObject();
+            AddObject(load);
+            load.ClassName = (RubySymbol)ReadAnObject();
+            load.BaseObject = ReadStringValueAsBytes();
+            TryExpendUserdefinedType(load);
+            return load;
         }
 
-        public string ReadString()
+        private object ReadUsingMarshalLoad()
         {
-            int count = ReadInt();
+            RubyExpendObject load = new RubyExpendObject();
+            AddObject(load);
+            load.ClassName = (RubySymbol)ReadAnObject();
+            load.BaseObject = ReadAnObject();
+            TryExpendUserdefinedType(load);
+            return load;
+        }
+
+        private void TryExpendUserdefinedType(RubyExpendObject load)
+        {
+            // todo
+            throw new NotImplementedException();
+        }
+
+        private RubyObject ReadClass()
+        {
+            RubyObject robj = new RubyObject();
+            AddObject(robj);
+            robj.ClassName = RubySymbol.GetSymbol(ReadStringValue());
+            return robj;
+        }
+
+        private RubyModule ReadModule()
+        {
+            RubyModule module = RubyModule.GetModule(ReadStringValue());
+            AddObject(module);
+            return module;
+        }
+
+        private RubyExtendedObject ReadExtendedObject()
+        {
+            RubyExtendedObject extObj = new RubyExtendedObject();
+            AddObject(extObj);
+            extObj.ExtendedModule = RubyModule.GetModule(((RubySymbol)ReadAnObject()).GetString());
+            extObj.BaseObject = ReadAnObject();
+            return extObj;
+        }
+
+        private RubyStruct ReadStruct()
+        {
+            RubyStruct sobj = new RubyStruct();
+            AddObject(sobj);
+            sobj.ClassName = (RubySymbol)ReadAnObject();
+            int sobjcount = ReadInt32();
+            for (int i = 0; i < sobjcount; i++)
+            {
+                sobj[(RubySymbol)ReadAnObject()] = ReadAnObject();
+            }
+            return sobj;
+        }
+
+        private RubyBignum ReadBignum()
+        {
+            int sign = 0;
+            switch (m_reader.ReadByte())
+            {
+                case 0x2b:
+                    sign = 1;
+                    break;
+
+                case 0x2d:
+                    sign = -1;
+                    break;
+
+                default:
+                    sign = 0;
+                    break;
+            }
+            int num3 = ReadInt32();
+            int index = num3 / 2;
+            int num5 = (num3 + 1) / 2;
+            uint[] data = new uint[num5];
+            for (int i = 0; i < index; i++)
+            {
+                data[i] = m_reader.ReadUInt32();
+            }
+            if (index != num5)
+            {
+                data[index] = m_reader.ReadUInt16();
+            }
+            RubyBignum bignum = new RubyBignum(sign, data);
+            this.AddObject(bignum);
+            return bignum;
+        }
+
+        private RubyExpendObject ReadExpendObject(bool hasAttributes)
+        {
+            RubyExpendObject expendobject = new RubyExpendObject();
+            AddObject(expendobject);
+            expendobject.BaseObject = ReadAnObject();
+            if (hasAttributes)
+            {
+                int expendobjectcount = ReadInt32();
+                for (int i = 0; i < expendobjectcount; i++)
+                {
+                    expendobject[(RubySymbol)ReadAnObject()] = ReadAnObject();
+                }
+            }
+            return expendobject;
+        }
+
+        private RubyObject ReadObject()
+        {
+            RubyObject robj = new RubyObject();
+            AddObject(robj);
+            robj.ClassName = (RubySymbol)ReadAnObject();
+            int robjcount = ReadInt32();
+            for (int i = 0; i < robjcount; i++)
+            {
+                robj[(RubySymbol)ReadAnObject()] = ReadAnObject();
+            }
+            return robj;
+        }
+
+        private Regex ReadRegex()
+        {
+            string regexPattern = ReadStringValue();
+            int regexOptionsRuby = m_reader.ReadByte();
+            RegexOptions regexOptions = RegexOptions.None;
+            if (regexOptionsRuby >= 4)
+            {
+                regexOptions |= RegexOptions.Multiline;
+                regexOptionsRuby -= 4;
+            }
+            if (regexOptionsRuby >= 2)
+            {
+                regexOptions |= RegexOptions.IgnorePatternWhitespace;
+                regexOptionsRuby -= 2;
+            }
+            if (regexOptionsRuby >= 1)
+            {
+                regexOptions |= RegexOptions.IgnoreCase;
+                regexOptionsRuby -= 1;
+            }
+            Regex regex = new Regex(regexPattern, regexOptions);
+            AddObject(regex);
+            return regex;
+        }
+
+        private RubyHash ReadHash(bool hasDefaultValue)
+        {
+            RubyHash hash = new RubyHash();
+            AddObject(hash);
+            int hashcount = ReadInt32();
+            for (int i = 0; i < hashcount; i++)
+            {
+                hash[ReadAnObject()] = ReadAnObject();
+            }
+            if (hasDefaultValue)
+                hash.DefaultValue = ReadAnObject();
+            return hash;
+        }
+
+        private List<object> ReadArray()
+        {
+            List<object> array = new List<object>();
+            AddObject(array);
+            int arraycount = ReadInt32();
+            for (int i = 0; i < arraycount; i++)
+            {
+                array.Add(ReadAnObject());
+            }
+            return array;
+        }
+
+        private RubySymbol ReadSymbol()
+        {
+            RubySymbol symbol = RubySymbol.GetSymbol(ReadStringValue());
+            if (!m_symbols.Contains(symbol))
+                m_symbols.Add(symbol);
+            return symbol;
+        }
+
+        private double ReadFloat()
+        {
+            string floatstr = ReadStringValue();
+            double floatobj;
+            if (floatstr == "inf")
+                floatobj = double.PositiveInfinity;
+            else if (floatstr == "-inf")
+                floatobj = double.NegativeInfinity;
+            else if (floatstr == "nan")
+                floatobj = double.NaN;
+            else
+            {
+                if (floatstr.Contains("\0"))
+                {
+                    floatstr = floatstr.Remove(floatstr.IndexOf("\0"));
+                }
+                floatobj = Convert.ToDouble(floatstr);
+            }
+            AddObject(floatobj);
+            return floatobj;
+        }
+
+        private object ReadString()
+        {
+            object str;
+            if (!TreatStringAsBytes)
+                str = ReadStringValue();
+            else
+                str = ReadStringValueAsBytes();
+            AddObject(str);
+            return str;
+        }
+
+        public string ReadStringValue()
+        {
+            int count = ReadInt32();
             byte[] bytes = m_reader.ReadBytes(count);
             byte[] buffer = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, bytes);
             return Encoding.Unicode.GetString(buffer);
         }
 
-        public byte[] ReadStringAsBytes()
+        public byte[] ReadStringValueAsBytes()
         {
-            int count = ReadInt();
+            int count = ReadInt32();
             return m_reader.ReadBytes(count);
         }
 
-        public int ReadInt()
+        public int ReadInt32()
         {
             sbyte num = m_reader.ReadSByte();
             if (num <= -5)

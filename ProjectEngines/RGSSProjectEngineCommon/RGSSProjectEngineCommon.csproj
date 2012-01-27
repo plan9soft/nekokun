@@ -41,18 +41,20 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="Helper.cs" />
     <Compile Include="Marshal\RubyMarshal.cs" />
     <Compile Include="RGSSScriptFile.cs" />
     <Compile Include="RGSSScriptItem.cs" />
     <Compile Include="RGSSScriptItemViewContent.cs" />
     <Compile Include="RObj\RubyBignum.cs" />
+    <Compile Include="RObj\RubyExtendedObject.cs" />
     <Compile Include="RObj\RubyHash.cs" />
+    <Compile Include="RObj\RubyModule.cs" />
+    <Compile Include="RObj\RubyStruct.cs" />
     <Compile Include="RubyClassObjectDisplayBinding.cs" />
     <Compile Include="RubyClassObjectViewContent.cs" />
     <Compile Include="RObj\RubyExpendObject.cs" />
     <None Include="Marshal\RubyMarshalDummy.cs" />
-    <Compile Include="Marshal\RubyMarshalDumpContent.cs" />
+    <Compile Include="RubyMarshalDumpContent.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="RObj\RubyNil.cs" />
     <Compile Include="RObj\RubyObject.cs" />
