@@ -23,5 +23,6 @@
 
   <Path name = "/NekoKun/ObjectEditor/DisplayBindings">
     <ObjectDisplayBinding id = "RubyObject" typename = "orzTech.NekoKun.ProjectEngines.RGSS.RubyObject" class = "orzTech.NekoKun.ProjectEngines.RGSS.RubyClassObjectDisplayBinding" />
+    <ObjectDisplayBinding id = "RubyHash" typename = "orzTech.NekoKun.ProjectEngines.RGSS.RubyHash" class = "orzTech.NekoKun.ObjectEditor.ListObjectDisplayBinding" />
   </Path>
 </AddIn>
