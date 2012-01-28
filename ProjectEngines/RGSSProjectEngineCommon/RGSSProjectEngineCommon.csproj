@@ -51,6 +51,8 @@
     <Compile Include="RObj\RubyHash.cs" />
     <Compile Include="RObj\RubyModule.cs" />
     <Compile Include="RObj\RubyStruct.cs" />
+    <Compile Include="RObj\RubyUserdefinedDumpObject.cs" />
+    <Compile Include="RObj\RubyUserdefinedMarshalDumpObject.cs" />
     <Compile Include="RubyClassObjectDisplayBinding.cs" />
     <Compile Include="RubyClassObjectViewContent.cs" />
     <Compile Include="RObj\RubyExpendObject.cs" />
