@@ -7,28 +7,22 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
     public class RubySymbol
     {
         private string name;
-        private static List<RubySymbol> symbols = new List<RubySymbol>();
+        private static Dictionary<string, RubySymbol> symbols = new Dictionary<string, RubySymbol>();
 
         protected RubySymbol(string s)
         {
             this.name = s;
-            symbols.Add(this);
+            symbols.Add(s, this);
         }
 
-        public static List<RubySymbol> GetSymbols()
+        public static Dictionary<string, RubySymbol> GetSymbols()
         {
             return symbols;
         }
 
         public static RubySymbol GetSymbol(string s)
         {
-            foreach (RubySymbol symbol in symbols)
-            {
-                if (symbol.GetString().Equals(s))
-                {
-                    return symbol;
-                }
-            }
+            if (symbols.ContainsKey(s)) return symbols[s];
             return new RubySymbol(s);
         }
 
@@ -40,6 +34,21 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         public override string ToString()
         {
             return (":" + this.name);
+        }
+
+        public string Name
+        {
+            get { return this.name; }
+        }
+
+        public RubyClass GetClass()
+        {
+            return RubyClass.GetClass(this);
+        }
+
+        public RubyModule GetModule()
+        {
+            return RubyModule.GetModule(this);
         }
     }
 }

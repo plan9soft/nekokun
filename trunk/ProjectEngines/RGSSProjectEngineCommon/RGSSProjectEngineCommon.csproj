@@ -46,6 +46,7 @@
     <Compile Include="RGSSScriptItem.cs" />
     <Compile Include="RGSSScriptItemViewContent.cs" />
     <Compile Include="RObj\RubyBignum.cs" />
+    <Compile Include="RObj\RubyClass.cs" />
     <Compile Include="RObj\RubyExtendedObject.cs" />
     <Compile Include="RObj\RubyHash.cs" />
     <Compile Include="RObj\RubyModule.cs" />
