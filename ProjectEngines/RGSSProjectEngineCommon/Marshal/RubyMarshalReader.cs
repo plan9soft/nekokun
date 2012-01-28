@@ -94,8 +94,10 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
                     return ReadObject();
 
                 case 0x43: // C Expend Object w/o attributes
+                    return ReadExpendObjectBase();
+
                 case 0x49: // I Expend Object
-                    return ReadExpendObject(id == 0x49);
+                    return ReadExpendObject();
 
                 case 0x6c: // l Bignum
                     return ReadBignum();
@@ -125,36 +127,27 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
 
         private object ReadUsingLoad()
         {
-            RubyExpendObject load = new RubyExpendObject();
-            AddObject(load);
-            load.ClassName = (RubySymbol)ReadAnObject();
-            load.BaseObject = ReadStringValueAsBytes();
-            TryExpendUserdefinedType(load);
-            return load;
+            RubyUserdefinedDumpObject obj = new RubyUserdefinedDumpObject();
+            AddObject(obj);
+            obj.ClassName = (RubySymbol)ReadAnObject();
+            obj.DumpedObject = ReadStringValueAsBytes();
+            return obj;
         }
 
         private object ReadUsingMarshalLoad()
         {
-            RubyExpendObject load = new RubyExpendObject();
-            AddObject(load);
-            load.ClassName = (RubySymbol)ReadAnObject();
-            load.BaseObject = ReadAnObject();
-            TryExpendUserdefinedType(load);
-            return load;
+            RubyUserdefinedMarshalDumpObject obj = new RubyUserdefinedMarshalDumpObject();
+            AddObject(obj);
+            obj.ClassName = (RubySymbol)ReadAnObject();
+            obj.DumpedObject = ReadAnObject();
+            return obj;
         }
 
-        private void TryExpendUserdefinedType(RubyExpendObject load)
+        private RubyClass ReadClass()
         {
-            // todo
-            // throw new NotImplementedException();
-        }
-
-        private RubyObject ReadClass()
-        {
-            RubyObject robj = new RubyObject();
-            AddObject(robj);
-            robj.ClassName = RubySymbol.GetSymbol(ReadStringValue());
-            return robj;
+            RubyClass obj = RubyClass.GetClass(ReadStringValue());
+            AddObject(obj);
+            return obj;
         }
 
         private RubyModule ReadModule()
@@ -220,18 +213,28 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
             return bignum;
         }
 
-        private RubyExpendObject ReadExpendObject(bool hasAttributes)
+        private RubyExpendObject ReadExpendObjectBase()
+        {
+            RubyExpendObject expendobject = new RubyExpendObject();
+            expendobject.ClassName = ReadSymbol();
+            expendobject.BaseObject = ReadAnObject();
+            return expendobject;
+        }
+
+        private RubyExpendObject ReadExpendObject()
         {
             RubyExpendObject expendobject = new RubyExpendObject();
             AddObject(expendobject);
             expendobject.BaseObject = ReadAnObject();
-            if (hasAttributes)
+            if (expendobject.BaseObject is RubyExpendObject)
             {
-                int expendobjectcount = ReadInt32();
-                for (int i = 0; i < expendobjectcount; i++)
-                {
-                    expendobject[(RubySymbol)ReadAnObject()] = ReadAnObject();
-                }
+                expendobject.ClassName = (expendobject.BaseObject as RubyExpendObject).ClassName;
+                expendobject.BaseObject = (expendobject.BaseObject as RubyExpendObject).BaseObject;
+            }
+            int expendobjectcount = ReadInt32();
+            for (int i = 0; i < expendobjectcount; i++)
+            {
+                expendobject[(RubySymbol)ReadAnObject()] = ReadAnObject();
             }
             return expendobject;
         }
