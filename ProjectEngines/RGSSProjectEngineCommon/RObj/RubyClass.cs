@@ -4,33 +4,33 @@ using System.Text;
 
 namespace orzTech.NekoKun.ProjectEngines.RGSS
 {
-    public class RubyModule
+    public class RubyClass
     {
         private string name;
         private RubySymbol symbol;
-        private static Dictionary<string, RubyModule> modules = new Dictionary<string, RubyModule>();
+        private static Dictionary<string, RubyClass> classes = new Dictionary<string, RubyClass>();
 
-        protected RubyModule(string s)
+        protected RubyClass(string s)
         {
             this.name = s;
             this.symbol = RubySymbol.GetSymbol(s);
-            modules.Add(s, this);
+            classes.Add(s, this);
         }
 
-        public static Dictionary<string, RubyModule> GetModules()
+        public static Dictionary<string, RubyClass> GetClasses()
         {
-            return modules;
+            return classes;
         }
 
-        public static RubyModule GetModule(RubySymbol s)
+        public static RubyClass GetClass(RubySymbol s)
         {
-            return GetModule(s.GetString());
+            return GetClass(s.GetString());
         }
 
-        public static RubyModule GetModule(string s)
+        public static RubyClass GetClass(string s)
         {
-            if (modules.ContainsKey(s)) return modules[s];
-            return new RubyModule(s);
+            if (classes.ContainsKey(s)) return classes[s];
+            return new RubyClass(s);
         }
 
         public override string ToString()
