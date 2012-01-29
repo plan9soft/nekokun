@@ -16,7 +16,7 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         public RGSSScriptItemViewContent(RGSSScriptItem scriptItem)
         {
             this.scriptItem = scriptItem;
-            this.IsViewOnly = false;            
+            this.IsViewOnly = false;
             this.TitleName = this.scriptItem.Title;
             this.FileName = this.scriptItem.ScriptFile.FileName;
             this.IsDirty = false;
@@ -37,6 +37,8 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
             editor.NativeInterface.SetProperty("fold", "1");
             editor.NativeInterface.SetProperty("fold.comment", "0");
             editor.NativeInterface.SetProperty("fold.compact", "1");
+            editor.NativeInterface.SetProperty("fold.preprocessor", "1");
+    
             editor.Folding.Flags = FoldFlag.LineAfterContracted;
 
             // lexing
@@ -71,12 +73,74 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
             editor.Styles[(int)SCE_RB.DATASECTION].ForeColor = Color.FromArgb(127, 0, 0);
             editor.Styles[(int)SCE_RB.COMMENTLINE].ForeColor = Color.FromArgb(0, 127, 0);
             editor.Styles[(int)SCE_RB.POD].ForeColor = Color.FromArgb(0, 127, 0);
-            
+
+            editor.EndOfLine.Mode = EndOfLineMode.Crlf;
+            editor.LineWrap.Mode = WrapMode.None;
+
+            editor.Indentation.UseTabs = false;
+            editor.Indentation.TabIndents = true;
+            editor.Indentation.TabWidth = 2;
+            editor.Indentation.ShowGuides = false;
+            editor.Indentation.BackspaceUnindents = true;
+            editor.Indentation.IndentWidth = 2;
+            editor.Indentation.SmartIndentType = SmartIndent.Simple;
+
+            editor.LongLines.EdgeMode = EdgeMode.Line;
+            editor.LongLines.EdgeColumn = 160;
+
+            editor.Caret.HighlightCurrentLine = true;
+            editor.Caret.CurrentLineBackgroundColor = Color.FromArgb(240, 240,240);
+
             editor.Text = this.scriptItem.Code;
             editor.UndoRedo.EmptyUndoBuffer();
             editor.TextDeleted += new EventHandler<TextModifiedEventArgs>(editor_TextDeleted);
             editor.TextInserted += new EventHandler<TextModifiedEventArgs>(editor_TextInserted);
             editor.Scrolling.HorizontalWidth = 1;
+
+            editor.CharAdded += new EventHandler<CharAddedEventArgs>(editor_CharAdded);
+        }
+
+        void editor_CharAdded(object sender, CharAddedEventArgs e)
+        {
+            if ((e.Ch == 10 || e.Ch == 13) && editor.Lines.Current.Number > 0)
+            {
+                int ind = editor.Lines.Current.Indentation - 1;
+                if ((editor.Lines.Current.Number == 1 &&
+                     editor.Lines[editor.Lines.Current.Number - 1].FoldLevel > 1024) ||
+                    (editor.Lines.Current.Number > 1 &&
+                     editor.Lines[editor.Lines.Current.Number - 1].FoldLevel >
+                     editor.Lines[editor.Lines.Current.Number - 2].FoldLevel))
+                {
+                    ind += editor.Indentation.IndentWidth;
+                }
+                if (ind > 0)
+                {
+                    editor.Lines.Current.Indentation = ind;
+                    editor.GoTo.Position(editor.Lines.Current.StartPosition + ind);
+                }
+            }
+            /*def on_editor_char_added chr
+    curr_line = @editor.get_current_line
+    if [10, 13].include? chr and curr_line > 0
+      line_ind = @editor.get_line_indentation curr_line - 1
+      if (curr_line == 1 and @editor.get_fold_level(curr_line - 1) > 1024) or 
+        (curr_line > 1 and @editor.get_fold_level(curr_line - 1) >
+        @editor.get_fold_level(curr_line - 2))
+        line_ind += @editor.get_indent
+      # FIXME: auto "unindent"
+      #elsif get_line(curr_line - 1).strip == 'end'
+      #  line_ind -= get_indent
+      #  line_ind = 0 if line_ind < 0
+      #  set_line_indentation curr_line - 1, line_ind
+      #elsif get_line(curr_line - 1).strip == 'else'
+      #  set_line_indentation curr_line - 1, line_ind - get_indent
+      end
+      if line_ind > 0
+        @editor.set_line_indentation curr_line, line_ind
+        @editor.goto_pos @editor.position_from_line(curr_line) + line_ind
+      end
+    end
+  end*/
         }
 
         void editor_TextInserted(object sender, TextModifiedEventArgs e)
@@ -87,11 +151,6 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         void editor_TextDeleted(object sender, TextModifiedEventArgs e)
         {
             this.IsDirty = true;
-        }
-
-        private int ScintillaRGB(int R, int G, int B)
-        {
-            return R + (G << 8) + (B << 16);
         }
 
         public override Control Control
