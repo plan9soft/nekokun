@@ -75,19 +75,32 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         public void Save()
         {
             List<object> rawFile = new List<object>();
-            Random random = new Random();
             foreach (RGSSScriptItem item in this)
             {
                 if (item.HasViewContentLoaded)
                     item.ViewContent.SubmitChange();
             }
 
+            int id = 0; RubyExpendObject obj;
             foreach (RGSSScriptItem item in this)
             {
                 List<object> rawItem = new List<object>();
-                rawItem.Add(random.Next(1000));
-                rawItem.Add(UTF8BytesFromUnicodeString(item.Title));
-                rawItem.Add(Ionic.Zlib.ZlibStream.CompressBuffer(UTF8BytesFromUnicodeString(item.Code)));
+                rawItem.Add(0);
+                
+                obj = new RubyExpendObject();
+                obj.BaseObject = UTF8BytesFromUnicodeString(item.Title);
+                obj.Variables[RubySymbol.GetSymbol("E")] = true;
+                rawItem.Add(obj);
+
+                obj = new RubyExpendObject();
+                obj.BaseObject = Ionic.Zlib.ZlibStream.CompressBuffer(UTF8BytesFromUnicodeString(item.Code));
+                if (((byte[])obj.BaseObject).Length == 0)
+                {
+                    obj.BaseObject = new byte[] { 120, 156, 3, 0, 0, 0, 0, 1 };
+                }
+                obj.Variables[RubySymbol.GetSymbol("E")] = true;
+                rawItem.Add(obj);
+
                 rawFile.Add(rawItem);
             }
             System.IO.FileStream file = System.IO.File.OpenWrite(this.fileName);

@@ -43,10 +43,10 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
             }
             LoadScript();
 
-            this.editorScriptsProjectItem = new ProjectItem("Editor Script", this.editorScripts);
+            //this.editorScriptsProjectItem = new ProjectItem("Editor Script", this.editorScripts);
             this.runtimeScriptsProjectItem = new ProjectItem("Runtime Script", this.runtimeScripts);
 
-            this.Project.ProjectExplorer.AddItem(this.editorScriptsProjectItem);
+            //this.Project.ProjectExplorer.AddItem(this.editorScriptsProjectItem);
             this.Project.ProjectExplorer.AddItem(this.runtimeScriptsProjectItem);
 
             foreach (RGSSScriptItem item in this.runtimeScripts)
@@ -85,10 +85,10 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
 
             try
             {
-                rubyEngine = Ruby.CreateEngine();
-                rubyScope = rubyEngine.CreateScope();
-                rubyScope.SetVariable("editor", this);
-                rubyEngine.Execute("load_assembly 'IronRuby.Libraries', 'IronRuby.StandardLibrary.Zlib'", rubyScope);
+                //rubyEngine = Ruby.CreateEngine();
+                //rubyScope = rubyEngine.CreateScope();
+                //rubyScope.SetVariable("editor", this);
+                //rubyEngine.Execute("load_assembly 'IronRuby.Libraries', 'IronRuby.StandardLibrary.Zlib'", rubyScope);
             }
             catch { }
 
@@ -97,15 +97,15 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
 
             foreach (RGSSScriptItem item in this.editorScripts)
             {
-                try
-                {
-                    rubyEngine.Execute(item.Code, rubyScope);
-                }
-                catch (Exception ex)
-                {
-                    ICSharpCode.Core.MessageService.ShowMessage("error in editor script: " + item.Title.ToString() + "\n" + ex.Message);
-                    break;
-                }
+                //try
+                //{
+                    //rubyEngine.Execute(item.Code, rubyScope);
+                //}
+                //catch (Exception ex)
+                //{
+                //    ICSharpCode.Core.MessageService.ShowMessage("error in editor script: " + item.Title.ToString() + "\n" + ex.Message);
+                //    break;
+                //}
             }
         }
 
