@@ -81,7 +81,7 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
                     item.ViewContent.SubmitChange();
             }
 
-            int id = 0; RubyExpendObject obj;
+            RubyExpendObject obj;
             foreach (RGSSScriptItem item in this)
             {
                 List<object> rawItem = new List<object>();
