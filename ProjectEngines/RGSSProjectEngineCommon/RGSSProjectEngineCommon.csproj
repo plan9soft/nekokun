@@ -69,9 +69,6 @@
     <Compile Include="RObj\RubySymbol.cs" />
     <Compile Include="RObj\RubyTable.cs" />
     <Compile Include="RObj\RubyTone.cs" />
-    <Compile Include="Zlib\Deflate.cs" />
-    <Compile Include="Zlib\Inflate.cs" />
-    <Compile Include="Zlib\ZStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\ICSharpCode.Core\ICSharpCode.Core.csproj">
@@ -84,9 +81,9 @@
       <Name>ScintillaNET</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libraries\Zlib.net\zlib.net.csproj">
-      <Project>{0C89B7A2-A218-49E4-B545-5B044A45F977}</Project>
-      <Name>zlib.net</Name>
+    <ProjectReference Include="..\..\Libraries\Zlib\Zlib DLL.csproj">
+      <Project>{9816BA86-9250-4C00-A912-25F07F8677D1}</Project>
+      <Name>Zlib DLL</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\NekoKun.Base\NekoKun.Base.csproj">

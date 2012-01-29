@@ -37,9 +37,14 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
         {
             get
             {
-                if (viewContent != null && !viewContent.IsDisposed) return viewContent;
+                if (HasViewContentLoaded) return viewContent;
                 return viewContent = new RGSSScriptItemViewContent(this);
             }
+        }
+
+        public bool HasViewContentLoaded
+        {
+            get { return (viewContent != null && !viewContent.IsDisposed); }
         }
     }
 }
