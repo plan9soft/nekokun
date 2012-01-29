@@ -122,5 +122,7 @@ namespace orzTech.NekoKun.Base
 		
 		event EventHandler     Saving;
 		event SaveEventHandler Saved;
-	}
+
+        void SubmitChange();
+    }
 }

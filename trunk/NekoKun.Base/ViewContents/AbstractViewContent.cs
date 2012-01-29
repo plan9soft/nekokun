@@ -224,5 +224,7 @@ namespace orzTech.NekoKun.Base
                 isPad = value;
             }
         }
+
+        public virtual void SubmitChange() { }
     }
 }

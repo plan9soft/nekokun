@@ -83,7 +83,7 @@ namespace orzTech.NekoKun.ProjectEngines.RGSS
                 this.m_objects.Add(obj);
                 this.WriteString((string)obj);
             }
-            if (obj is double)
+            else if (obj is double)
             {
                 this.m_objects.Add(obj);
                 this.WriteFloat((double)obj);
