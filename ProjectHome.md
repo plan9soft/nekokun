@@ -1,0 +1,1 @@
+An editor to replace RPG Maker XP/VX/VX Ace
